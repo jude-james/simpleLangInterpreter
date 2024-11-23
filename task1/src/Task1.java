@@ -21,7 +21,8 @@ public class Task1 {
         SimpleLangParser.ProgContext tree = parser.prog(); // begin parsing at prog rule
 
         SimpleLangInterpreter interpreter = new SimpleLangInterpreter();
-        Integer mainReturnValue = interpreter.visitProgram(tree, args);
+        //Integer mainReturnValue = interpreter.visitProgram(tree, args);
+        Integer mainReturnValue = interpreter.visitProgram(tree, new String[]{ "5", "9" });
         System.out.println();
         System.out.println("NORMAL_TERMINATION");
         System.out.println(mainReturnValue);
