@@ -23,15 +23,10 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
             if (args[i].equals("true")) {
                 // original... puts "main" instead of argument name on the frame for some reason...??
                 //newFrame.put(main.typed_idfr().get(i).Idfr().getText(), 1);
-
                 newFrame.put(main.vardec.get(i).Idfr().getText(), 1);
             } else if (args[i].equals("false")) {
-                //newFrame.put(main.typed_idfr().get(i).Idfr().getText(), 0);
-
                 newFrame.put(main.vardec.get(i).Idfr().getText(), 0);
             } else {
-                //newFrame.put(main.typed_idfr().get(i).Idfr().getText(), Integer.parseInt(args[i]));
-
                 newFrame.put(main.vardec.get(i).Idfr().getText(), Integer.parseInt(args[i]));
             }
         }
@@ -42,7 +37,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override public Integer visitProg(SimpleLangParser.ProgContext ctx)
     {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
@@ -55,7 +49,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override public Integer visitTyped_idfr(SimpleLangParser.Typed_idfrContext ctx)
     {
-        //throw new RuntimeException("Should not be here!");
         return null;
     }
 
@@ -82,18 +75,13 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
      */
 
     @Override public Integer visitBody(SimpleLangParser.BodyContext ctx) {
-        // TODO check if expression is int or bool
-
         // new... when visit body must assign typed_idfr to exp and add to stack
-
         Map<String, Integer> currentFrame = frames.peek();
 
         for (int i = 0; i < ctx.typed_idfr().size(); i++) {
             SimpleLangParser.ExpContext rhs = ctx.ene.get(i);
             Integer value = visit(rhs);
-            //Map<String, Integer> newFrame = new HashMap<>();
             currentFrame.put(ctx.typed_idfr().get(i).Idfr().getText(), value);
-            //frames.push(newFrame);
         }
         frames.pop();
         frames.push(currentFrame);
@@ -137,7 +125,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
 
     @Override public Integer visitBinOpExpr(SimpleLangParser.BinOpExprContext ctx) {
-
         SimpleLangParser.ExpContext operand1 = ctx.exp(0);
         Integer oprnd1 = visit(operand1);
         SimpleLangParser.ExpContext operand2 = ctx.exp(1);
@@ -204,9 +191,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
     @Override public Integer visitInvokeExpr(SimpleLangParser.InvokeExprContext ctx)
     {
-
         // original, not in loop so only got 1st param
-
         /*
         SimpleLangParser.DecContext dec = global_funcs.get(ctx.Idfr().getText());
         SimpleLangParser.Typed_idfrContext param = dec.vardec.get(0);
@@ -217,7 +202,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
         frames.push(newFrame);
         return visit(dec);
-
          */
 
         // new
@@ -253,11 +237,7 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitWhileExpr(SimpleLangParser.WhileExprContext ctx) {
-        //return null;
-        //TODO ctx.exp() must be binopexpr?
-
         Integer returnValue = null;
-
         while (visit(ctx.exp()) > 0) {
             returnValue = visit(ctx.block());
         }
@@ -266,8 +246,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitRepeatExpr(SimpleLangParser.RepeatExprContext ctx) {
-        //return null;
-
         Integer returnValue;
         do {
             returnValue = visit(ctx.block());
@@ -284,7 +262,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
         } else if (((TerminalNode) exp.getChild(0)).getSymbol().getType() == SimpleLangParser.NewLine) {
             System.out.println();
         } else {
-            // TODO check if .getType() == SimpleLangPerser.IntLit or something
             System.out.print(visit(exp));
         }
         return null;
@@ -306,7 +283,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override public Integer visitIdExpr(SimpleLangParser.IdExprContext ctx)
     {
-        //printFrame();
         return frames.peek().get(ctx.Idfr().getText());
     }
 
@@ -317,8 +293,6 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
 
     @Override
     public Integer visitBoolLitExpr(SimpleLangParser.BoolLitExprContext ctx) {
-        //return null;
-
         String bool = ctx.BoolLit().getText();
         if (Objects.equals(bool, "true")) {
             return 1;
@@ -328,17 +302,14 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
 
     @Override public Integer visitEqBinop(SimpleLangParser.EqBinopContext ctx) {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
     @Override public Integer visitLessBinop(SimpleLangParser.LessBinopContext ctx) {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
     @Override public Integer visitLessEqBinop(SimpleLangParser.LessEqBinopContext ctx) {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
@@ -353,17 +324,14 @@ public class SimpleLangInterpreter extends AbstractParseTreeVisitor<Integer> imp
     }
 
     @Override public Integer visitPlusBinop(SimpleLangParser.PlusBinopContext ctx) {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
     @Override public Integer visitMinusBinop(SimpleLangParser.MinusBinopContext ctx) {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
     @Override public Integer visitTimesBinop(SimpleLangParser.TimesBinopContext ctx) {
-        // throw new RuntimeException("Should not be here!");
         return null;
     }
 
